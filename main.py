@@ -18,6 +18,8 @@ import re
 # Import OS module to interact with the operating system
 import os
 
+import json
+from datetime import datetime
 
 # Python library used to extract text from images
 from paddleocr import PaddleOCR
@@ -83,6 +85,38 @@ def paddle_ocr(frame, x1, y1, x2, y2):
 
 
 
+def save_json(license_plates, startTime, endTime):
+    #Generate individual JSON files for each 20-second interval
+    interval_data = {
+        "Start Time": startTime.isoformat(),
+        "End Time": endTime.isoformat(),
+        "License Plate": list(license_plates)
+    }
+    interval_file_path = "json/output_" + datetime.now().strftime("%Y%m%d%H%M%S") + ".json"
+    with open(interval_file_path, 'w') as f:
+        json.dump(interval_data, f, indent = 2)
+
+    #Cummulative JSON File
+    cummulative_file_path = "json/LicensePlateData.json"
+    if os.path.exists(cummulative_file_path):
+        with open(cummulative_file_path, 'r') as f:
+            existing_data = json.load(f)
+    else:
+        existing_data = []
+
+    #Add new intervaal data to cummulative data
+    existing_data.append(interval_data)
+
+    with open(cummulative_file_path, 'w') as f:
+        json.dump(existing_data, f, indent = 2)
+
+
+
+
+startTime = datetime.now()
+license_plates = set()
+
+
 
 
 # Main loop to process video frames
@@ -94,6 +128,7 @@ while True:
     # frame will store the frame read from the video
     ret, frame = cap.read()
     if ret:
+        currentTime = datetime.now()
         count += 1                                              # Increase the frame number
         print(f"Frame Number: {count}")
 
@@ -118,7 +153,8 @@ while True:
                
                 label = paddle_ocr(frame, x1, y1, x2, y2)             # Call the function to extract text from the frame
 
-
+                if label:
+                    license_plates.add(label)
                 # Here we  calculate how much space the text will take when drawn.
                 # This helps in drawing a background rectangle behind the text so it’s visible.
                 # It return a tuple like this ((width, height), baseline) we require only width and height.
@@ -134,6 +170,12 @@ while True:
                 # It basically put text on the rectangle
                 cv2.putText(frame, label, (x1, y1 - 2), 0, 0.5, [255,255,255], thickness=1, lineType=cv2.LINE_AA)    
         
+        if (currentTime - startTime).seconds >= 10:
+            endTime = currentTime
+            save_json(license_plates, startTime, endTime)
+            startTime = currentTime
+            license_plates.clear()
+
         cv2.imshow("Video", frame)                             # It basically show the updated frame in that video
         if cv2.waitKey(1) & 0xFF == ord('1'):                  #  If if want to stop the video
             break
