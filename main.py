@@ -84,36 +84,45 @@ def paddle_ocr(frame, x1, y1, x2, y2):
 
 
 
-
+# Function to Save Detected License Plates to JSON Files
+# This function saves the set of license plates detected during a 10-second interval
 def save_json(license_plates, startTime, endTime):
-    #Generate individual JSON files for each 20-second interval
+    
+    # Create a dictionary with the interval data
+
     interval_data = {
         "Start Time": startTime.isoformat(),
         "End Time": endTime.isoformat(),
         "License Plate": list(license_plates)
     }
+
+    # Save to a new uniquely named file in the json folder
     interval_file_path = "json/output_" + datetime.now().strftime("%Y%m%d%H%M%S") + ".json"
     with open(interval_file_path, 'w') as f:
         json.dump(interval_data, f, indent = 2)
 
-    #Cummulative JSON File
+    # Path to the cumulative file
     cummulative_file_path = "json/LicensePlateData.json"
     if os.path.exists(cummulative_file_path):
         with open(cummulative_file_path, 'r') as f:
             existing_data = json.load(f)
     else:
+        # If file doesn't exist, start with empty list
         existing_data = []
 
-    #Add new intervaal data to cummulative data
+    # Append current interval data to cumulative list
     existing_data.append(interval_data)
 
+    # Save the updated cumulative data back to the same file
     with open(cummulative_file_path, 'w') as f:
         json.dump(existing_data, f, indent = 2)
 
 
 
-
+# Record the starting time of the 10-second interval.
 startTime = datetime.now()
+
+# Create an empty set to store unique license plate numbers detected during
 license_plates = set()
 
 
@@ -170,14 +179,18 @@ while True:
                 # It basically put text on the rectangle
                 cv2.putText(frame, label, (x1, y1 - 2), 0, 0.5, [255,255,255], thickness=1, lineType=cv2.LINE_AA)    
         
+        # Check if 10 seconds have passed since the last save
         if (currentTime - startTime).seconds >= 10:
-            endTime = currentTime
+            endTime = currentTime                              # Mark the end time of this interval
+
+            # Save the collected license plates along with the start and end times to JSON
             save_json(license_plates, startTime, endTime)
-            startTime = currentTime
-            license_plates.clear()
+
+            startTime = currentTime                            # Reset the timer for the next interval
+            license_plates.clear()                             # Clear the set to start collecting new license plates
 
         cv2.imshow("Video", frame)                             # It basically show the updated frame in that video
-        if cv2.waitKey(1) & 0xFF == ord('1'):                  #  If if want to stop the video
+        if cv2.waitKey(1) & 0xFF == ord('1'):                  #  If want to stop the video
             break
     else:                                                      # Break if no more frames
         break                                                  # If ret = false
