@@ -20,6 +20,7 @@ import os
 
 import json
 from datetime import datetime
+import sqlite3
 
 # Python library used to extract text from images
 from paddleocr import PaddleOCR
@@ -117,7 +118,20 @@ def save_json(license_plates, startTime, endTime):
     with open(cummulative_file_path, 'w') as f:
         json.dump(existing_data, f, indent = 2)
 
+    #Save data to SQL database
+    save_to_database(license_plates, startTime, endTime)
 
+
+def save_to_database(license_plates, start_time, end_time):
+    conn = sqlite3.connect('licensePlatesDatabase.db')
+    cursor = conn.cursor()
+    for plate in license_plates:
+        cursor.execute('''
+            INSERT INTO LicensePlates(start_time, end_time, license_plate)
+            VALUES (?, ?, ?)
+        ''', (start_time.isoformat(), end_time.isoformat(), plate))
+    conn.commit()
+    conn.close()
 
 # Record the starting time of the 10-second interval.
 startTime = datetime.now()

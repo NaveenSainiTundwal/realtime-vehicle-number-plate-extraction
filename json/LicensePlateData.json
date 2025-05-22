@@ -43,5 +43,105 @@
       "LS15EBC",
       "LSI5EBC"
     ]
+  },
+  {
+    "Start Time": "2025-05-22T16:15:54.014849",
+    "End Time": "2025-05-22T16:16:04.168258",
+    "License Plate": [
+      "LS15EBC",
+      "LSI5EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:16:04.168258",
+    "End Time": "2025-05-22T16:16:14.343888",
+    "License Plate": [
+      "LS15EBC",
+      "LS5EBC",
+      "LSI5EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:16:14.343888",
+    "End Time": "2025-05-22T16:16:24.452684",
+    "License Plate": [
+      "LS15EBC",
+      "LSI5EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:19:55.074197",
+    "End Time": "2025-05-22T16:20:05.088634",
+    "License Plate": [
+      "LSI5EBC",
+      "LS15EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:20:05.088634",
+    "End Time": "2025-05-22T16:20:15.263642",
+    "License Plate": [
+      "LS5EBC",
+      "LSI5EBC",
+      "LS15EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:20:15.263642",
+    "End Time": "2025-05-22T16:20:25.301190",
+    "License Plate": [
+      "LSI5EBC",
+      "LS15EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:31:44.579469",
+    "End Time": "2025-05-22T16:31:54.797513",
+    "License Plate": [
+      "LSI5EBC",
+      "LS15EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:31:54.797513",
+    "End Time": "2025-05-22T16:32:04.861171",
+    "License Plate": [
+      "LSI5EBC",
+      "LS15EBC",
+      "LS5EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:32:04.861171",
+    "End Time": "2025-05-22T16:32:15.051181",
+    "License Plate": [
+      "LSI5EBC",
+      "LS15EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:46:24.994952",
+    "End Time": "2025-05-22T16:46:35.036245",
+    "License Plate": [
+      "LSI5EBC",
+      "LS15EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:46:35.036245",
+    "End Time": "2025-05-22T16:46:45.217468",
+    "License Plate": [
+      "LSI5EBC",
+      "LS15EBC",
+      "LS5EBC"
+    ]
+  },
+  {
+    "Start Time": "2025-05-22T16:46:45.217468",
+    "End Time": "2025-05-22T16:46:55.460100",
+    "License Plate": [
+      "LSI5EBC",
+      "LS15EBC"
+    ]
   }
 ]
